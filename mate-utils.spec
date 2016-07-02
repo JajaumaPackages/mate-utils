@@ -1,3 +1,6 @@
+# Disable building of the dictionary utility for now
+%define with_gdict_applet 0
+
 # Conditional for release and snapshot builds. Uncomment for release-builds.
 %global rel_build 1
 
@@ -15,9 +18,9 @@
 Name:           mate-utils
 Version:        %{branch}.0
 %if 0%{?rel_build}
-Release:        1%{?dist}
+Release:        2%{?dist}
 %else
-Release:        0.2%{?git_rel}%{?dist}
+Release:        0.3%{?git_rel}%{?dist}
 %endif
 Summary:        MATE utility programs
 License:        GPLv2+ and LGPLv2+
@@ -38,7 +41,9 @@ BuildRequires:  libX11-devel
 BuildRequires:  libXmu-devel
 BuildRequires:  mate-common
 BuildRequires:  mate-desktop-devel
+%if %{?with_gdict_applet}
 BuildRequires:  mate-panel-devel
+%endif
 BuildRequires:  mesa-libGL-devel
 BuildRequires:  popt-devel
 BuildRequires:  usermode
@@ -121,7 +126,11 @@ NOCONFIGURE=1 ./autogen.sh
 %configure \
     --disable-static            \
     --disable-schemas-compile   \
-    --enable-gdict-applet       \
+%if %{?with_gdict_applet}
+    --enable-gdict-applet=yes   \
+%else
+    --enable-gdict-applet=no    \
+%endif
     --enable-gtk-doc-html       \
     --enable-ipv6=yes           \
     --enable-maintainer-flags=no  \
@@ -267,12 +276,14 @@ fi
 %{_datadir}/applications/mate-dictionary.desktop
 %{_datadir}/mate-dict/
 %{_datadir}/mate-dictionary/
-%{_libexecdir}/mate-dictionary-applet
 %{_libdir}/libmatedict.so.*
 %{_mandir}/man1/mate-dictionary.1.*
 %{_datadir}/glib-2.0/schemas/org.mate.dictionary.gschema.xml
+%if %{?with_gdict_applet}
+%{_libexecdir}/mate-dictionary-applet
 %{_datadir}/mate-panel/applets/org.mate.DictionaryApplet.mate-panel-applet
 %{_datadir}/dbus-1/services/org.mate.panel.applet.DictionaryAppletFactory.service
+%endif
 
 %files -n mate-search-tool -f mate-search-tool.lang
 %{_bindir}/mate-search-tool
@@ -295,6 +306,9 @@ fi
 
 
 %changelog
+* Sat Jul 02 2016 Jajauma's Packages <jajauma@yandex.ru> - 1.15.0-2
+- Conditionally disable gdict applet
+
 * Thu Jun 09 2016 Wolfgang Ulbrich <chat-to-me@raveit.de> - 1.15.0-1
 - update to 1.15.0 release
 - switch to gtk+3
