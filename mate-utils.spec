@@ -16,9 +16,9 @@
 %{!?rel_build:%global git_tar %{name}-%{version}-%{git_ver}.tar.xz}
 
 Name:           mate-utils
-Version:        %{branch}.0
+Version:        %{branch}.1
 %if 0%{?rel_build}
-Release:        2%{?dist}
+Release:        1%{?dist}
 %else
 Release:        0.3%{?git_rel}%{?dist}
 %endif
@@ -306,6 +306,9 @@ fi
 
 
 %changelog
+* Mon Sep 05 2016 Jajauma's Packages <jajauma@yandex.ru> - 1.15.1-1
+- Update to latest upstream release
+
 * Sat Jul 02 2016 Jajauma's Packages <jajauma@yandex.ru> - 1.15.0-2
 - Conditionally disable gdict applet
 
