@@ -5,7 +5,7 @@
 %global rel_build 1
 
 # This is needed, because src-url contains branched part of versioning-scheme.
-%global branch 1.15
+%global branch 1.16
 
 # Settings used for build from snapshots.
 %{!?rel_build:%global commit d3538696e2b4e4372e9f526a0a4e2e4be08fc832}
@@ -16,7 +16,7 @@
 %{!?rel_build:%global git_tar %{name}-%{version}-%{git_ver}.tar.xz}
 
 Name:           mate-utils
-Version:        %{branch}.1
+Version:        %{branch}.0
 %if 0%{?rel_build}
 Release:        1%{?dist}
 %else
@@ -306,6 +306,9 @@ fi
 
 
 %changelog
+* Tue Sep 27 2016 Jajauma's Packages <jajauma@yandex.ru> - 1.16.0-1
+- Update to latest upstream release
+
 * Mon Sep 05 2016 Jajauma's Packages <jajauma@yandex.ru> - 1.15.1-1
 - Update to latest upstream release
 
